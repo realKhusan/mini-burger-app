@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+#root {
+  margin: 0;
+  padding: 0;
+}
+.scroll-container {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+.ant-card-body {
+  padding: 0 !important;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  overflow-x: hidden;
+  border-radius: 20px;
+  width: 50%;
+  max-width: 800px;
+}
+@media (max-width: 768px) {
+  .modal-content {
+    width: 70%;
+  }
+}
+@media (max-width: 1200px) {
+  .modal-content {
+    width: 70%;
+  }
+}
+@media (max-width: 576px) {
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border-radius: 0;
+  }
+}
