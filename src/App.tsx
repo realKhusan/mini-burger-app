@@ -1,21 +1,49 @@
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Spin } from "antd";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
-import Home from "./pages/Home";
+import ErrorPage from "./pages/ErrorPage";
+import { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
 
 const routes = createBrowserRouter([
-  { path: "", element: <Navigate to={"home"} /> },
+  { path: "", element: <Navigate to={"home"} />, errorElement: <ErrorPage /> },
   {
-    path: "/home",
-    element: <Home />,
+    path: "sign-up",
+    element: (
+      <Suspense fallback={<Spin />}>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "login",
+    element: (
+      <Suspense>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "home",
+    element: (
+      <Suspense>
+        <Home />
+      </Suspense>
+    ),
     children: [
       {
-        path: ":id",
-        element: <Home />,
+        path: ":sku",
+        element: (
+          <Suspense>
+            <Home />
+          </Suspense>
+        ),
       },
     ],
   },
