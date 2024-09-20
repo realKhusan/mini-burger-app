@@ -10,7 +10,7 @@ function Modal({
   return (
     <>
       {open && (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="!z-30  modal-overlay" onClick={onClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             {children}
           </div>

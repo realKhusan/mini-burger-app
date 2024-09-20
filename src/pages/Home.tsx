@@ -16,6 +16,7 @@ import {
   Typography,
   Divider as AntdDivider,
   Pagination,
+  Dropdown,
 } from "antd";
 import styled from "@emotion/styled";
 import CategoryButton from "../components/categoryButton";
@@ -30,12 +31,30 @@ import { useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
 import OrderQuantity from "../components/OrderQuantity ";
 import ScuterImg from "../assets/scuter24x.svg";
-
+import type { MenuProps } from "antd";
+import { BiUser } from "react-icons/bi";
+import { MdLogout } from "react-icons/md";
+import Switch from "../components/Switch";
 const { Title, Paragraph, Link, Text } = Typography;
 
 const Divider = styled(AntdDivider)`
   margin-block: 3px !important;
 `;
+const items: MenuProps["items"] = [
+  {
+    key: "1",
+    label: (
+      <Link
+        className="flex items-center gap-5"
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.antgroup.com"
+      >
+        <MdLogout /> Log out
+      </Link>
+    ),
+  },
+];
 
 function Home() {
   const [radio, setRadio] = useState(1);
@@ -87,7 +106,22 @@ function Home() {
           style={{ color: "white !important" }}
           className="container px-[10px] md:px-[15px] py-10 lg:px-5 mx-auto !text-white"
         >
-          <img className="mb-5" src={logo} alt="" />
+          <div className="flex items-center justify-between">
+            <img className="mb-5" src={logo} alt="" />
+            <div className="flex items-center gap-2">
+              <Switch></Switch>
+              <Dropdown
+                menu={{ items }}
+                placement="bottomLeft"
+                trigger={["click"]}
+              >
+                <Button size="large" shape="circle">
+                  <BiUser />
+                </Button>
+              </Dropdown>
+            </div>
+          </div>
+
           <div className="flex flex-col-reverse items-center justify-center gap-5 text-center md:text-start md:flex-row">
             <img src={burger} alt="" />
             <div>
@@ -107,62 +141,61 @@ function Home() {
           return <CategoryButton key={item} img="" title={`${item}salom`} />;
         })}
       </div>
-      <div className="container px-[10px] md:px-[15px] lg:px-5  py-5 grid gap-5 mx-auto">
+      <div className="container !z-50 px-[10px] md:px-[15px] lg:px-5  py-5 grid gap-5 mx-auto">
         <Row gutter={{ xs: 8, sm: 9, md: 10, lg: 20 }}>
           <Col span={24} sm={8} md={8} lg={6}>
-            <AntCard
-              onClick={handleBasket}
-              ref={basketRef}
-              className={`cursor-pointer transition-all ${
-                basket
-                  ? " sm:w-[150%] !h-[200px]  !z-10 shadow-2xl md:shadow-none"
-                  : ""
-              }  static z-10 md:cursor-default md:w-auto md:h-auto md:!top-0 p-3 !rounded-2xl mb-2 sm:mb-[4.5px] md:mb-[5px] lg:mb-[10px]`}
-            >
-              <div className="flex items-center justify-between mb-0 md:mb-3">
-                <Title className="!text-sm !mb-0 md:!text-xl lg:!text-2xl ">
-                  Корзина
-                </Title>
-                <Tag className="!border-none bg-thridColor px-3 !m-0">0</Tag>
-              </div>
-
-              {[1, 2, 3, 4, 5].length !== 0 ? (
-                <div className={`${basket ? "block " : "hidden md:block"} `}>
-                  <Divider />
-                  <Paragraph className="hidden md:block">
-                    {"Тут пока пусто :("}
-                  </Paragraph>
-                  <Paragraph className="hidden md:block">
-                    {"Тут пока пусто :("}
-                  </Paragraph>
-                  <Paragraph className="hidden md:block">
-                    {"Тут пока пусто :("}
-                  </Paragraph>
-                  <Paragraph className="hidden md:block">
-                    {"Тут пока пусто :("}
-                  </Paragraph>
-                  <div className="flex justify-between mb-3">
-                    <Text>Итого</Text>
-                    <Text>1279₽</Text>
-                  </div>
-                  <Button
-                    onClick={() => setSearchParams({ order: "true" })}
-                    size="large"
-                    className="w-full mb-2  text-white bg-secondColor !rounded-xl"
-                  >
-                    Оформить заказ
-                  </Button>
-                  <div className="flex items-center gap-3">
-                    <img src={ScuterImg} alt="" />
-                    <Text className="text-xs">Бесплатная доставка</Text>
-                  </div>
+            <div className="relative md:mt-[45px] z-30  sm:!sticky !top-[10px] h-[55px]">
+              <AntCard
+                onClick={handleBasket}
+                ref={basketRef}
+                className={`cursor-pointer transition-all w-full ${
+                  basket
+                    ? " w-full sm:w-[150%]   shadow-2xl md:shadow-none"
+                    : ""
+                }  !absolute !top-0   md:cursor-default md:w-auto sm:!sticky  md:h-auto  md:!sticky md:!top-0 p-3 !rounded-2xl mb-2 sm:mb-[4.5px] md:mb-[5px] lg:mb-[10px]`}
+              >
+                <div className="flex items-center justify-between mb-0 md:mb-3">
+                  <Title className="!text-sm !mb-0 md:!text-xl lg:!text-2xl ">
+                    Корзина
+                  </Title>
+                  <Tag className="!border-none bg-thridColor px-3 !m-0">0</Tag>
                 </div>
-              ) : (
-                <Text className="hidden md:block">{"Тут пока пусто :("}</Text>
-              )}
-            </AntCard>
+
+                {[1, 2, 3, 4, 5].length !== 0 ? (
+                  <div className={`${basket ? "block " : "hidden md:block "} `}>
+                    <Divider />
+                    <Paragraph>{"Тут пока пусто :("}</Paragraph>
+                    <Paragraph>{"Тут пока пусто :("}</Paragraph>
+                    <Paragraph>{"Тут пока пусто :("}</Paragraph>
+                    <Paragraph>{"Тут пока пусто :("}</Paragraph>
+                    <div className="flex justify-between mb-3">
+                      <Text>Итого</Text>
+                      <Text>1279₽</Text>
+                    </div>
+                    <Button
+                      onClick={() => setSearchParams({ order: "true" })}
+                      size="large"
+                      className="w-full mb-2  text-white bg-secondColor !rounded-xl"
+                    >
+                      Оформить заказ
+                    </Button>
+                    <div className="flex items-center gap-3">
+                      <img src={ScuterImg} alt="" />
+                      <Text className="text-xs">Бесплатная доставка</Text>
+                    </div>
+                  </div>
+                ) : (
+                  <Text className="hidden md:block">{"Тут пока пусто :("}</Text>
+                )}
+              </AntCard>
+            </div>
           </Col>
           <Col span={24} sm={24} md={16} lg={18}>
+            <Col span={12} sm={8} lg={8} md={12}>
+              <Title level={3} className="!-z-30">
+                Бургер
+              </Title>
+            </Col>
             <Row gutter={{ xs: 8, sm: 9, md: 10, lg: 20 }}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
                 <Col key={index} span={12} sm={8} lg={8} md={12}>
@@ -274,7 +307,7 @@ function Home() {
       >
         <div className="h-full md:grid md:grid-cols-2">
           <div className="items-center justify-center hidden p-4 md:flex bg-mainColor">
-            <img src={DonutImg} alt="" />
+            <img className="w-full" src={DonutImg} alt="" />
           </div>
           <div className="flex flex-col justify-between h-full p-4">
             <div>
@@ -305,14 +338,17 @@ function Home() {
                     <Radio value={2}>Доставка</Radio>
                   </Space>
                 </Radio.Group>
-                <div className="grid grid-cols-2 gap-4">
-                  <Form.Item>
-                    <Input size="large" placeholder="Этаж" />
-                  </Form.Item>
-                  <Form.Item>
-                    <Input size="large" placeholder="Домофон" />
-                  </Form.Item>
-                </div>
+
+                {radio === 1 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Form.Item>
+                      <Input size="large" placeholder="Этаж" />
+                    </Form.Item>
+                    <Form.Item>
+                      <Input size="large" placeholder="Домофон" />
+                    </Form.Item>
+                  </div>
+                )}
               </Form>
             </div>
 
