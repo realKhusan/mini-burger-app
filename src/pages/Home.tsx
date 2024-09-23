@@ -2,6 +2,7 @@
 import { Fragment } from "react/jsx-runtime";
 import burger from "../assets/burger.svg";
 import logo from "../assets/Logo.svg";
+import categorySVG from "../assets/free-icon-cheeseburger-2362255.svg";
 import {
   Button,
   Col,
@@ -17,6 +18,8 @@ import {
   Divider as AntdDivider,
   Pagination,
   Dropdown,
+  Switch,
+  Select,
 } from "antd";
 import styled from "@emotion/styled";
 import CategoryButton from "../components/categoryButton";
@@ -24,8 +27,13 @@ import FooterLogo from "../assets/footerLogo.svg";
 import { FaInstagram, FaPhone, FaTelegramPlane } from "react-icons/fa";
 import Modal from "../components/Modal";
 import C from "../assets/ellipse.svg";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { IoClose } from "react-icons/io5";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import { IoClose, IoSettingsOutline } from "react-icons/io5";
 import DonutImg from "../assets/donut.svg";
 import { useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
@@ -34,43 +42,78 @@ import ScuterImg from "../assets/scuter24x.svg";
 import type { MenuProps } from "antd";
 import { BiUser } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
-import Switch from "../components/Switch";
-const { Title, Paragraph, Link, Text } = Typography;
+import { RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleMode } from "../store/slices/ThemeReducer";
+import { FaLocationDot } from "react-icons/fa6";
+const { Title, Paragraph, Text } = Typography;
 
 const Divider = styled(AntdDivider)`
   margin-block: 3px !important;
 `;
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: (
-      <Link
-        className="flex items-center gap-5"
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        <MdLogout /> Log out
-      </Link>
-    ),
-  },
-];
 
 function Home() {
-  const [radio, setRadio] = useState(1);
+  const [formRadio, setFormRadio] = useState(1);
   const [basket, setBasket] = useState(false);
   const basketRef = useRef<HTMLDivElement>(null);
+  const mode = useSelector((state: RootState) => state.theme.mode);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const isOrderModal = searchParams.get("order") === "true";
+
+  const items: MenuProps["items"] = [
+    {
+      key: "info",
+      label: (
+        <>
+          <div style={{ fontWeight: "bold", color: "#888" }}>
+            usename: <span style={{ fontSize: "12px" }}>Vasko</span>
+          </div>
+          <div style={{ fontWeight: "bold", color: "#888" }}>
+            email:{" "}
+            <span style={{ fontSize: "12px" }}>Vasko038@outlook.com</span>
+          </div>
+        </>
+      ),
+      disabled: true,
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "1",
+      label: (
+        <Link className="flex items-center gap-5" to="/login">
+          <MdLogout /> Log out
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Paragraph className="flex items-center gap-5 !mb-0">
+          <IoSettingsOutline /> настройки
+        </Paragraph>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Paragraph className="flex items-center gap-5 !mb-0">
+          <Switch onChange={() => dispatch(toggleMode())} /> ночной режим
+        </Paragraph>
+      ),
+    },
+  ];
   const handleCancel = () => {
     navigate("");
   };
 
-  const onChange = (e: RadioChangeEvent) => {
+  const formRadioOnChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
-    setRadio(e.target.value);
+    setFormRadio(e.target.value);
   };
 
   const handleBasket = () => {
@@ -109,13 +152,75 @@ function Home() {
           <div className="flex items-center justify-between">
             <img className="mb-5" src={logo} alt="" />
             <div className="flex items-center gap-2">
-              <Switch></Switch>
+              <Select
+                size="large"
+                defaultValue="lucy"
+                className="w-[80px]"
+                options={[
+                  {
+                    value: "uzLatin",
+                    label: (
+                      <div className="flex gap-2">
+                        <img
+                          src="https://cdn.commeta.uz/static/review/static/front/svg/flag/uz.svg"
+                          alt=""
+                        />
+                        <Typography.Paragraph className="!mb-0">
+                          Uz
+                        </Typography.Paragraph>
+                      </div>
+                    ),
+                  },
+                  {
+                    value: "uzLatin",
+                    label: (
+                      <div className="flex gap-2">
+                        <img
+                          src="https://cdn.commeta.uz/static/review/static/front/svg/flag/uz.svg"
+                          alt=""
+                        />
+                        <Typography.Paragraph className="!mb-0">
+                          Уз
+                        </Typography.Paragraph>
+                      </div>
+                    ),
+                  },
+                  {
+                    value: "en",
+                    label: (
+                      <div className="flex gap-2">
+                        <img
+                          src="https://cdn.commeta.uz/static/review/static/front/svg/flag/en.svg"
+                          alt=""
+                        />
+                        <Typography.Paragraph className="!mb-0">
+                          En
+                        </Typography.Paragraph>
+                      </div>
+                    ),
+                  },
+                  {
+                    value: "ru",
+                    label: (
+                      <div className="flex gap-2">
+                        <img
+                          src="https://cdn.commeta.uz/static/review/static/front/svg/flag/uz.svg"
+                          alt=""
+                        />
+                        <Typography.Paragraph className="!mb-0">
+                          Ру
+                        </Typography.Paragraph>
+                      </div>
+                    ),
+                  },
+                ]}
+              />
               <Dropdown
                 menu={{ items }}
                 placement="bottomLeft"
                 trigger={["click"]}
               >
-                <Button size="large" shape="circle">
+                <Button size="large">
                   <BiUser />
                 </Button>
               </Dropdown>
@@ -138,7 +243,9 @@ function Home() {
       </div>
       <div className="container flex justify-between h-full gap-3 px-2 py-5 mx-auto overflow-x-auto">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
-          return <CategoryButton key={item} img="" title={`${item}salom`} />;
+          return (
+            <CategoryButton key={item} img={categorySVG} title={` Бургеры`} />
+          );
         })}
       </div>
       <div className="container !z-50 px-[10px] md:px-[15px] lg:px-5  py-5 grid gap-5 mx-auto">
@@ -158,7 +265,13 @@ function Home() {
                   <Title className="!text-sm !mb-0 md:!text-xl lg:!text-2xl ">
                     Корзина
                   </Title>
-                  <Tag className="!border-none bg-thridColor px-3 !m-0">0</Tag>
+                  <Tag
+                    className={`!border-none ${
+                      mode === "light" ? "bg-thridColor" : ""
+                    } px-3 !m-0`}
+                  >
+                    0
+                  </Tag>
                 </div>
 
                 {[1, 2, 3, 4, 5].length !== 0 ? (
@@ -175,7 +288,7 @@ function Home() {
                     <Button
                       onClick={() => setSearchParams({ order: "true" })}
                       size="large"
-                      className="w-full mb-2  text-white bg-secondColor !rounded-xl"
+                      className={`w-full mb-2  text-white bg-secondColor !rounded-xl`}
                     >
                       Оформить заказ
                     </Button>
@@ -207,7 +320,11 @@ function Home() {
         </Row>
         <Pagination align="center" defaultCurrent={1} total={50} />
       </div>
-      <footer className="pt-[24px] sm:pt-[40px] md:pt-[50px] pb-[26px] md:pb-[40px] bg-white">
+      <footer
+        className={`pt-[24px] sm:pt-[40px] md:pt-[50px] pb-[26px] md:pb-[40px]  ${
+          mode === "light" ? "bg-white" : "bg-[#0C0C0C]"
+        } `}
+      >
         <div className="container px-[10px] md:px-[15px] lg:px-5  mx-auto ">
           <Row>
             <Col span={24} md={12} lg={12}>
@@ -246,7 +363,7 @@ function Home() {
             </Paragraph>
             <Paragraph className="!mb-0">
               build by:
-              <Link href="https://t.me/MoonKnight_009">Husan Mirobidov</Link>
+              <Link to="https://t.me/MoonKnight_009">Husan Mirobidov</Link>
             </Paragraph>
           </div>
         </div>
@@ -324,30 +441,45 @@ function Home() {
               </div>
               <Form className="mb-3">
                 <Form.Item>
-                  <Input size="large" placeholder="Ваше имя" />
+                  <Input size="large" placeholder="Второй телефон" />
                 </Form.Item>
-                <Form.Item>
-                  <Input size="large" placeholder="Телефон" />
-                </Form.Item>
-                <Form.Item>
-                  <Input size="large" placeholder="Улица, дом, квартира" />
-                </Form.Item>
-                <Radio.Group className="mb-5" onChange={onChange} value={radio}>
+                <Radio.Group
+                  className="mb-5"
+                  onChange={formRadioOnChange}
+                  value={formRadio}
+                >
                   <Space direction="vertical">
                     <Radio value={1}>Самовывоз</Radio>
-                    <Radio value={2}>Доставка</Radio>
+                    <Radio value={2}>Доставка на мой адрес</Radio>
+                    <Radio value={3}>Доставка в другое место</Radio>
                   </Space>
                 </Radio.Group>
-
-                {radio === 1 && (
-                  <div className="grid grid-cols-2 gap-4">
+                {formRadio === 3 && (
+                  <>
                     <Form.Item>
-                      <Input size="large" placeholder="Этаж" />
+                      <Input size="large" placeholder="Улица, дом, квартира" />
                     </Form.Item>
                     <Form.Item>
-                      <Input size="large" placeholder="Домофон" />
+                      <Space.Compact className="!w-full">
+                        <Input
+                          placeholder="Адрес на карте"
+                          size="large"
+                          defaultValue="Combine input and button"
+                        />
+                        <Button size="large" type="primary">
+                          <FaLocationDot />
+                        </Button>
+                      </Space.Compact>
                     </Form.Item>
-                  </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Form.Item>
+                        <Input size="large" placeholder="Этаж" />
+                      </Form.Item>
+                      <Form.Item>
+                        <Input size="large" placeholder="Домофон" />
+                      </Form.Item>
+                    </div>
+                  </>
                 )}
               </Form>
             </div>

@@ -12,8 +12,25 @@ export interface IProduct {
   cardinate?: string;
 }
 
-export interface Category {
+export interface ICategory {
   id: string;
   icon: string;
   title: string;
+}
+
+export interface IUser {
+  id: string;
+  email: string;
+  password: string;
+}
+
+export interface IBasketProduct {
+  id: number;
+  userId: number;
+  products: [
+    {
+      productId: number;
+      quantity: number;
+    }
+  ];
 }

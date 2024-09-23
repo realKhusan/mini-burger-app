@@ -3,18 +3,15 @@
 @tailwind utilities;
 
 body {
-  background-color: #f9f9f9;
+  background-color: #191919;
   margin: 0;
   padding: 0;
 }
 #root {
   margin: 0;
-  padding: 0;
+  padding: 0 !important;
 }
-.scroll-container {
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-}
+
 .ant-card-body {
   padding: 0 !important;
 }
@@ -36,6 +33,10 @@ body {
   width: 50%;
   height: 70%;
   max-width: 800px;
+}
+.ant-select-selection-item {
+  display: flex;
+  gap: 10px;
 }
 @media (max-width: 768px) {
   .modal-content {

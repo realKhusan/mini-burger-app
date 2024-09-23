@@ -1,9 +1,12 @@
 import { Button, Card as AntdCard, Typography, Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "../types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 const { Title, Paragraph } = Typography;
 function Card({ item }: { item: IProduct }) {
   const navigate = useNavigate();
+  const mode = useSelector((state: RootState) => state.theme.mode);
   return (
     <AntdCard
       onClick={() => navigate(`${""}`)}
@@ -24,7 +27,14 @@ function Card({ item }: { item: IProduct }) {
       </Paragraph> */}
       <Button
         size="large"
-        className="w-full !rounded-xl bg-thridColor border-none hover:!text-black hover:!bg-gray-200"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className={`w-full !rounded-xl cursor-pointer ${
+          mode === "light"
+            ? "bg-thridColor  hover:!text-black hover:!bg-gray-200"
+            : " bg-mainColor"
+        }  border-none `}
       >
         Добавить
       </Button>
