@@ -9,7 +9,6 @@ export interface IProduct {
   compound: string[];
   calories: number;
   categoryId: string;
-  cardinate?: string;
 }
 
 export interface ICategory {

@@ -1,0 +1,38 @@
+{
+  "home": {
+    "header": {
+      "title": {
+        "mainTitle": "Eng mazali",
+        "spanTitle": "burgerlar"
+      },
+      "delivery": "dan bepul yetkazib berish",
+      "user": {
+        "title": "Kirish",
+        "logOut": "chqish",
+        "darkMode": "tungi rejim",
+        "setting": "sozlamalar"
+      }
+    },
+    "main": {
+      "basket": {
+        "basket": "savat",
+        "emptyTitle": "Bu er hali ham bo'sh :(",
+        "total": "Jami",
+        "freeShipping": "Bepul yetkazib berish",
+        "shipping": "yetkazib berish :",
+        "placeOrder": "Byurtma berish"
+      },
+      "productButton": "Savatga"
+    },
+
+    "footer": {
+      "phoneTitle": "Telefon raqam",
+      "socialTitle": "Ijtimoiy tarmoqlar"
+    },
+    "": {}
+  },
+  "messages": {},
+  "login": {},
+  "signUp": {},
+  "forgot": {}
+}
