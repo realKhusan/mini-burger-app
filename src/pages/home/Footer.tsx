@@ -17,7 +17,7 @@ import { RootState } from "../../store/store";
 const { Title, Paragraph } = Typography;
 
 function Footer() {
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const mode = useSelector((state: RootState) => state.main.mode);
   return (
     <footer
       className={`pt-[24px] sm:pt-[40px] md:pt-[50px] pb-[26px] md:pb-[40px]  ${

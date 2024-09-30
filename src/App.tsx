@@ -18,7 +18,11 @@ const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 
 const routes = createBrowserRouter([
-  { path: "", element: <Navigate to={"home"} />, errorElement: <ErrorPage /> },
+  {
+    path: "",
+    element: <Navigate to={"home/category/burgers"} />,
+    errorElement: <ErrorPage />,
+  },
   {
     path: "sign-up",
     element: (
@@ -51,6 +55,7 @@ const routes = createBrowserRouter([
       </Suspense>
     ),
   },
+  { path: "home", element: <Navigate to={"/home/category/burgers"} /> },
   {
     path: "home",
     element: (
@@ -60,18 +65,43 @@ const routes = createBrowserRouter([
     ),
     children: [
       {
-        path: ":sku",
+        path: "category",
         element: (
           <Suspense>
             <Home />
           </Suspense>
         ),
+        children: [
+          {
+            path: ":category",
+            element: (
+              <Suspense>
+                <Home />
+              </Suspense>
+            ),
+            children: [
+              {
+                path: ":product",
+                element: (
+                  <Suspense>
+                    <Home />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+        ],
       },
     ],
   },
 ]);
 function App() {
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const mode = useSelector((state: RootState) => state.main.mode);
+  const categories = useSelector((state: RootState) => state.categories.data);
+  useEffect(() => {
+    if (categories.length > 0) {
+    }
+  }, [categories]);
   useEffect(() => {
     const rootElement = document.querySelector("body");
     if (rootElement) {

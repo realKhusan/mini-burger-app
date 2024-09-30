@@ -5,11 +5,10 @@ import image from "../assets/login-burger.svg";
 import { RootState } from "../store/store";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
-import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const mode = useSelector((state: RootState) => state.main.mode);
   const [form] = useForm();
   const handleSubmit = async (values: {
     phoneNumber: string;
@@ -19,20 +18,21 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://13.60.232.175:8080/api/customer/login",
+        "https://d54757447b9c0307.mokky.dev/auth",
         {
           phoneNumber: values.phoneNumber,
           password: values.password,
         },
         {
           headers: {
+            Accept: "application/json",
             "Content-Type": "application/json",
-            Accept: "*/*",
           },
         }
       );
-      if (response.status === 200) {
-        const accessToken = response.data.accessToken;
+      console.log(response);
+      if (response.status === 201) {
+        const accessToken = response.data.token;
         localStorage.setItem("token", accessToken);
         console.log("Token:", accessToken);
         navigate("/home");
@@ -83,6 +83,7 @@ function Login() {
                 <Input
                   placeholder="Введите номер телефона"
                   className="!w-full"
+                  autoComplete="off"
                   size="large"
                 />
               </Form.Item>
@@ -94,6 +95,7 @@ function Login() {
                 <Input.Password
                   placeholder="Введите пароль"
                   className="!w-full"
+                  autoComplete="off"
                   size="large"
                 />
               </Form.Item>

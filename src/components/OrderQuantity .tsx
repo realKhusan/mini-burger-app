@@ -11,21 +11,15 @@ function OrderQuantity({ count }: { count?: number }) {
     }
   }
   return (
-    <div className="flex items-center gap-3 p-2 justify-evenly rounded-xl bg-thridColor">
-      <Button
-        className="!border-none bg-transparent text-2xl"
-        onClick={() => handleAction("minus")}
-      >
+    <Button.Group>
+      <Button className="text-2xl " onClick={() => handleAction("minus")}>
         -
       </Button>
-      <Typography.Text>{quantitiy}</Typography.Text>
-      <Button
-        className="!border-none bg-transparent text-2xl"
-        onClick={() => handleAction("plus")}
-      >
+      <Button disabled>{quantitiy}</Button>
+      <Button className="text-2xl " onClick={() => handleAction("plus")}>
         +
       </Button>
-    </div>
+    </Button.Group>
   );
 }
 

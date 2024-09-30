@@ -1,6 +1,6 @@
 //components
 import { Button, Dropdown, Menu, Switch, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //svg or images
 import EllipseSvg from "../../assets/ellipse.svg";
@@ -9,11 +9,15 @@ import logo from "../../assets/Logo.svg";
 
 //icons
 import { MdLogout, MdOutlineTranslate } from "react-icons/md";
-import { toggleMode } from "../../store/slices/ThemeReducer";
+import { toggleMode, updateUser } from "../../store/slices/MainReducer";
 import { IoSettingsOutline } from "react-icons/io5";
 
 //hooks
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FaUser } from "react-icons/fa6";
+import checkUser from "../../api/CheckUser";
+import { useEffect } from "react";
+import { RootState } from "../../store/store";
 
 //types
 
@@ -21,17 +25,28 @@ const { Title, Paragraph } = Typography;
 
 function Header() {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.main.user);
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    async function fetchUser() {
+      const userData = await checkUser(token);
+      console.log(userData, "asdsad");
+      dispatch(updateUser(userData));
+    }
+    fetchUser();
+  }, [token]);
+  const navigate = useNavigate();
   const userDropdownItems = (
     <Menu>
       <Menu.Item key="1">
         <div style={{ fontWeight: "bold", color: "#888" }}>
-          username: <span style={{ fontSize: "12px" }}>+Vasko</span>
+          username: <span style={{ fontSize: "12px" }}>{user?.userName}</span>
         </div>
         <div style={{ fontWeight: "bold", color: "#888" }}>
-          tel: <span style={{ fontSize: "12px" }}>+998 99 123 45 67</span>
+          tel: <span style={{ fontSize: "12px" }}>{user?.phoneNumber}</span>
         </div>
       </Menu.Item>
-      <Menu.Item key="2">
+      <Menu.Item key="2" onClick={() => localStorage.removeItem("token")}>
         <Link className="flex items-center gap-5" to="/login">
           <MdLogout /> Log out
         </Link>
@@ -88,12 +103,12 @@ function Header() {
             >
               <Button
                 onClick={() => {
-                  return true;
+                  if (token === null) navigate("/login");
                 }}
                 size="large"
                 className="bg-white hover:!bg-opacity-50  hover:scale-105 hover:!text-black hover:!bg-white !bg-opacity-25 border-none h-[40px] "
               >
-                Kirish
+                {token ? <FaUser /> : "Kirish"}
               </Button>
             </Dropdown>
           </div>

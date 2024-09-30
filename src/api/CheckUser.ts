@@ -1,16 +1,13 @@
 import axios from "axios";
 
-async function checkUser(token: "string") {
+async function checkUser(token: string | null) {
   try {
-    const res = await axios.get(
-      "http://13.60.232.175:8080/api/customer/login",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.get("https://d54757447b9c0307.mokky.dev/auth_me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);

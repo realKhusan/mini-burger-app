@@ -31,7 +31,6 @@ body {
   overflow-x: hidden;
   border-radius: 20px;
   width: 50%;
-  height: 70%;
   max-width: 800px;
 }
 .ant-select-selection-item {

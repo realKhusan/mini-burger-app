@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ThemeReducer from "./slices/ThemeReducer";
+import MainReducer from "./slices/MainReducer";
 import ProductReducer from "./slices/ProductReducer";
 import CategoriesReducer from "./slices/Categories";
+import BasketReducer from "./slices/BasketReducer";
 
 const store = configureStore({
   reducer: {
     products: ProductReducer,
     categories: CategoriesReducer,
-    theme: ThemeReducer,
+    basket: BasketReducer,
+    main: MainReducer,
   },
 });
 

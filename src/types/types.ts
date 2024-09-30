@@ -15,21 +15,23 @@ export interface ICategory {
   id: string;
   icon: string;
   title: string;
+  slug: string;
 }
 
 export interface IUser {
   id: string;
-  email: string;
+  userName: string;
+  phoneNumber: string;
   password: string;
+  adress: string;
+  location: [number, number];
 }
-
-export interface IBasketProduct {
+interface baksetProduct {
+  productId: number;
+  quantity: number;
+}
+export interface IBasket {
   id: number;
   userId: number;
-  products: [
-    {
-      productId: number;
-      quantity: number;
-    }
-  ];
+  products: baksetProduct[];
 }

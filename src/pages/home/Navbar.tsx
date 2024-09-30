@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import CategoryButton from "../../components/categoryButton";
 import { RootState } from "../../store/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { updateCategories } from "../../store/slices/Categories";
+import { NavLink, useLocation } from "react-router-dom";
+import { Button } from "antd";
 
 function Navbar() {
   const categories = useSelector((state: RootState) => state.categories.data);
   const dispatch = useDispatch();
-
+  const location = useLocation();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -22,13 +23,26 @@ function Navbar() {
         console.error("Error fetching categories:", e);
       }
     };
-
     fetchCategories();
   }, []);
+
   return (
     <div className="container flex justify-between h-full gap-3 px-2 py-5 mx-auto overflow-x-auto">
       {categories.map((item, index) => {
-        return <CategoryButton key={index} img={""} title={item.title} />;
+        return (
+          <NavLink key={index} to={`category/${item.slug}`}>
+            <Button
+              shape="round"
+              className={`shadow  ${
+                location.pathname.includes(`category/${item.slug}`)
+                  ? "!bg-mainColor text-white"
+                  : ""
+              }`}
+            >
+              {item.slug}
+            </Button>
+          </NavLink>
+        );
       })}
     </div>
   );
