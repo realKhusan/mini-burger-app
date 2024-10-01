@@ -15,7 +15,7 @@ function SignUp() {
   const location = useLocation();
   const navigate = useNavigate();
   const [params, setParamas] = useSearchParams();
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const mode = useSelector((state: RootState) => state.main.mode);
   const openModal = params.get("maps") === "true";
   const [form] = useForm();
   const handleSubmit = () => {
@@ -92,7 +92,7 @@ function SignUp() {
           </Typography.Paragraph>
         </div>
       </div>
-      <Modal open={openModal} onClose={() => setParamas({})}>
+      <Modal open={openModal}>
         <div>salom</div>
       </Modal>
     </div>

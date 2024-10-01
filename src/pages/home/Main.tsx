@@ -1,74 +1,39 @@
-import styled from "@emotion/styled";
 import {
-  Divider as AntdDivider,
-  Card as AntCard,
   Col,
   Row,
   Typography,
   Button,
   Pagination,
-  Tag,
-  RadioChangeEvent,
-  Form,
-  Radio,
-  Input,
-  Space,
   Empty,
 } from "antd";
-import { useEffect, useRef, useState } from "react";
-import ScuterImg from "../../assets/scuter24x.svg";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { IoClose } from "react-icons/io5";
-import { FaLocationDot } from "react-icons/fa6";
-import DonutImg from "../../assets/donut.svg";
 import OrderQuantity from "../../components/OrderQuantity ";
 import Card from "../../components/Card";
 import axios from "axios";
 import { updateProducts } from "../../store/slices/ProductReducer";
-const { Title, Paragraph, Text } = Typography;
-const Divider = styled(AntdDivider)`
-  margin-block: 3px !important;
-`;
+import { updateBasket } from "../../store/slices/MainReducer";
+import Basket from "../../components/Basket";
+const { Title, Paragraph } = Typography;
+
 function Main() {
-  const [basket, setBasket] = useState(false);
   const products = useSelector((state: RootState) => state.products.data);
   const categroies = useSelector((state: RootState) => state.categories.data);
-  const basketRef = useRef<HTMLDivElement>(null);
-  const mode = localStorage.getItem("mode");
-  const [formRadio, setFormRadio] = useState(1);
   const [productId, setProductId] = useState<string | null>(null);
   const navigate = useNavigate();
   const params = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const isOrderModal = searchParams.get("order") === "true";
   const dispatch = useDispatch();
   const categorySlug = params.category;
   const category = categroies.find((item) => item.slug === categorySlug)?.id;
-  const userBasket = useSelector((state: RootState) => state.basket.data);
-  const formRadioOnChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setFormRadio(e.target.value);
-  };
-  const handleBasket = () => {
-    setBasket(true);
-  };
+  const user = useSelector((state: RootState) => state.main.user);
+
+
   const product = products.find((item) => item.id === productId);
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (basketRef.current && !basketRef.current.contains(e.target as Node)) {
-      setBasket(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -88,63 +53,28 @@ function Main() {
       fetchData();
     }
   }, [category]);
- useEffect(()=>{
-    
- },[])
+  useEffect(() => {
+    try {
+      async function fetchBasket() {
+        const res = await axios.get(
+          `https://d54757447b9c0307.mokky.dev/basket?userId=${user.id}`
+        );
+        if (res.status == 200) {
+          dispatch(updateBasket(res.data[0]));
+        }
+      }
+      if (user.id) fetchBasket();
+    } catch (e) {
+      console.log("Landing Page(Main)", e);
+    }
+  }, [user]);
   return (
     <>
       <main className="container !z-50 px-[10px] md:px-[15px] lg:px-5  py-5 grid gap-5 mx-auto">
         <Row gutter={{ xs: 8, sm: 9, md: 10, lg: 20 }}>
           <Col span={24} sm={8} md={8} lg={6}>
             <div className="relative md:mt-[45px] z-30  sm:!sticky !top-[10px] h-[55px]">
-              <AntCard
-                onClick={handleBasket}
-                ref={basketRef}
-                className={`cursor-pointer transition-all w-full ${
-                  basket
-                    ? " w-full sm:w-[150%]   shadow-2xl md:shadow-none"
-                    : ""
-                }  !absolute !top-0   md:cursor-default md:w-auto sm:!sticky  md:h-auto  md:!sticky md:!top-0 p-3 !rounded-2xl mb-2 sm:mb-[4.5px] md:mb-[5px] lg:mb-[10px]`}
-              >
-                <div className="flex items-center justify-between mb-0 md:mb-3">
-                  <Title className="!text-sm !mb-0 md:!text-xl lg:!text-2xl ">
-                    Корзина
-                  </Title>
-                  <Tag
-                    className={`!border-none ${
-                      mode === "light" ? "bg-thridColor" : ""
-                    } px-3 !m-0`}
-                  >
-                    0
-                  </Tag>
-                </div>
-
-                {userBasket &&
-                userBasket.products &&
-                userBasket.products.length !== 0 ? (
-                  <div className={`${basket ? "block " : "hidden md:block "} `}>
-                    <Divider />
-                    <Paragraph>{"Тут пока пусто :("}</Paragraph>
-                    <div className="flex justify-between mb-3">
-                      <Text>Итого</Text>
-                      <Text>1279₽</Text>
-                    </div>
-                    <Button
-                      onClick={() => setSearchParams({ order: "true" })}
-                      size="large"
-                      className={`w-full mb-2  text-white bg-secondColor !rounded-xl`}
-                    >
-                      Оформить заказ
-                    </Button>
-                    <div className="flex items-center gap-3">
-                      <img src={ScuterImg} alt="" />
-                      <Text className="text-xs">Бесплатная доставка</Text>
-                    </div>
-                  </div>
-                ) : (
-                  <Text className="hidden md:block">{"Тут пока пусто :("}</Text>
-                )}
-              </AntCard>
+              <Basket />
             </div>
           </Col>
           <Col span={24} sm={24} md={16} lg={18}>
@@ -226,75 +156,6 @@ function Main() {
                 </Title>
               </div>
             </div>
-          </div>
-        </div>
-      </Modal>
-      <Modal open={isOrderModal}>
-        <div className="h-full md:grid md:grid-cols-2">
-          <div className="items-center justify-center hidden p-4 md:flex bg-mainColor">
-            <img className="w-full" src={DonutImg} alt="" />
-          </div>
-          <div className="flex flex-col justify-between h-full p-4">
-            <div>
-              <div className="flex justify-between mb-4">
-                <Typography.Title level={3} className="!mb-0">
-                  Modal Title
-                </Typography.Title>
-                <button
-                  className="text-2xl text-slate-500 modal-close"
-                  onClick={() => navigate(-1)}
-                >
-                  <IoClose />
-                </button>
-              </div>
-              <Form className="mb-3">
-                <Form.Item>
-                  <Input size="large" placeholder="Второй телефон" />
-                </Form.Item>
-                <Radio.Group
-                  className="mb-5"
-                  onChange={formRadioOnChange}
-                  value={formRadio}
-                >
-                  <Space direction="vertical">
-                    <Radio value={1}>Самовывоз</Radio>
-                    <Radio value={2}>Доставка на мой адрес</Radio>
-                    <Radio value={3}>Доставка в другое место</Radio>
-                  </Space>
-                </Radio.Group>
-                {formRadio === 3 && (
-                  <>
-                    <Form.Item>
-                      <Input size="large" placeholder="Улица, дом, квартира" />
-                    </Form.Item>
-                    <Form.Item>
-                      <Space.Compact className="!w-full">
-                        <Input
-                          placeholder="Адрес на карте"
-                          size="large"
-                          defaultValue="Combine input and button"
-                        />
-                        <Button size="large" type="primary">
-                          <FaLocationDot />
-                        </Button>
-                      </Space.Compact>
-                    </Form.Item>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Form.Item>
-                        <Input size="large" placeholder="Этаж" />
-                      </Form.Item>
-                      <Form.Item>
-                        <Input size="large" placeholder="Домофон" />
-                      </Form.Item>
-                    </div>
-                  </>
-                )}
-              </Form>
-            </div>
-
-            <Button size="large" className="w-full text-white bg-secondColor">
-              Оформить
-            </Button>
           </div>
         </div>
       </Modal>

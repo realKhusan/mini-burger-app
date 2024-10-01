@@ -30,7 +30,6 @@ function Header() {
   useEffect(() => {
     async function fetchUser() {
       const userData = await checkUser(token);
-      console.log(userData, "asdsad");
       dispatch(updateUser(userData));
     }
     fetchUser();

@@ -26,12 +26,12 @@ export interface IUser {
   adress: string;
   location: [number, number];
 }
-interface baksetProduct {
-  productId: number;
+export interface baksetProduct {
+  productId: string;
   quantity: number;
 }
 export interface IBasket {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   products: baksetProduct[];
 }

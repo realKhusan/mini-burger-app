@@ -1,13 +1,27 @@
-import { Button, Card as AntdCard, Typography } from "antd";
-import { IProduct } from "../types/types";
-import { useSelector } from "react-redux";
+import { Button, Card as AntdCard, Typography, message } from "antd";
+import { baksetProduct, IProduct } from "../types/types";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { addProductBasket } from "../store/slices/MainReducer";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Paragraph } = Typography;
 
 function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
   const mode = useSelector((state: RootState) => state.main.mode);
-
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  function handleBasket(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+    e.stopPropagation();
+    if (token) {
+      const addProduct: baksetProduct = { productId: item.id, quantity: 1 };
+      dispatch(addProductBasket(addProduct));
+    } else {
+      navigate("/login");
+      message.warning("royxatdan otish kerak");
+    }
+  }
   return (
     <AntdCard
       onClick={onClick}
@@ -27,9 +41,7 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
       </Paragraph>
       <Button
         size="large"
-        onClick={(e) => {
-          e.stopPropagation(); // Bu faqat Button uchun ishlaydi
-        }}
+        onClick={(e) => handleBasket(e)}
         className={`w-full !rounded-xl hover:!scale-105 !cursor-pointer ${
           mode === "light"
             ? "bg-thridColor hover:!text-black hover:!bg-gray-200"
