@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useEffect } from "react";
-import axios from "axios";
 import { updateCategories } from "../../store/slices/Categories";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "antd";
+import mainApi from "../../api/Request";
 
 function Navbar() {
   const categories = useSelector((state: RootState) => state.categories.data);
@@ -13,9 +13,7 @@ function Navbar() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          "https://d54757447b9c0307.mokky.dev/category"
-        );
+        const res = await mainApi.get("/category");
         if (res.status === 200) {
           dispatch(updateCategories(res.data));
         }

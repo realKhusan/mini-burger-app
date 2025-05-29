@@ -32,6 +32,7 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
         src={item.image}
         alt=""
       />
+
       <Title level={3} className="!mb-0">
         {item.price}
       </Title>

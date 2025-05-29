@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IProduct } from "../../types/types";
 
-const initialState: { data: IProduct[] } = {
+const initialState: { data: IProduct[]; baksetProduct: IProduct[] } = {
   data: [],
+  baksetProduct: [],
 };
 const ProductSlice = createSlice({
   name: "products",

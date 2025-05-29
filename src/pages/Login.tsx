@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import image from "../assets/login-burger.svg";
 import { RootState } from "../store/store";
 import { useForm } from "antd/es/form/Form";
-import axios from "axios";
+import mainApi from "../api/Request";
+import { isAxiosError } from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,19 +18,10 @@ function Login() {
     console.log("form", values.password, values.phoneNumber);
 
     try {
-      const response = await axios.post(
-        "https://d54757447b9c0307.mokky.dev/auth",
-        {
-          phoneNumber: values.phoneNumber,
-          password: values.password,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await mainApi.post("/auth", {
+        phoneNumber: values.phoneNumber,
+        password: values.password,
+      });
       console.log(response);
       if (response.status === 201) {
         const accessToken = response.data.token;
@@ -39,7 +31,8 @@ function Login() {
         message.success("Добро пожаловать! Вы успешно вошли в систему.");
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      console.error("Error details:", error); // Xatolik haqida batafsil ma'lumot
+      if (isAxiosError(error)) {
         console.error(
           "Login muvaffaqiyatsiz:",
           error.response?.data.errorMessage

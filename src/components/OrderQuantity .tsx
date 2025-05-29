@@ -1,4 +1,4 @@
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import { useState } from "react";
 
 function OrderQuantity({ count }: { count?: number }) {

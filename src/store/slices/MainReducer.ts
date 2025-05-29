@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IBasket, IUser } from "../../types/types";
 
-const getInitialMode = () => {
+const getInitialMode = (): string => {
   const savedMode = localStorage.getItem("mode");
   return savedMode ? savedMode : "light";
 };

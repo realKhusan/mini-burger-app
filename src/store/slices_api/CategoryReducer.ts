@@ -7,12 +7,14 @@ export const CategoriesApi = createApi({
     baseUrl: "https://d54757447b9c0307.mokky.dev/category",
   }),
   endpoints: (builder) => ({
+    //
     getCategories: builder.query({
       query: () => ({
         url: "",
         method: "get",
       }),
     }),
+    //
   }),
 });
 

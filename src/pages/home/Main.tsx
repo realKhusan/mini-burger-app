@@ -1,11 +1,4 @@
-import {
-  Col,
-  Row,
-  Typography,
-  Button,
-  Pagination,
-  Empty,
-} from "antd";
+import { Col, Row, Typography, Button, Pagination, Empty } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -14,10 +7,10 @@ import Modal from "../../components/Modal";
 import { IoClose } from "react-icons/io5";
 import OrderQuantity from "../../components/OrderQuantity ";
 import Card from "../../components/Card";
-import axios from "axios";
 import { updateProducts } from "../../store/slices/ProductReducer";
 import { updateBasket } from "../../store/slices/MainReducer";
 import Basket from "../../components/Basket";
+import mainApi from "../../api/Request";
 const { Title, Paragraph } = Typography;
 
 function Main() {
@@ -31,16 +24,13 @@ function Main() {
   const category = categroies.find((item) => item.slug === categorySlug)?.id;
   const user = useSelector((state: RootState) => state.main.user);
 
-
   const product = products.find((item) => item.id === productId);
 
   useEffect(() => {
     async function fetchData() {
       try {
         if (category) {
-          const res = await axios.get(
-            `https://d54757447b9c0307.mokky.dev/products?categoryId=${category}`
-          );
+          const res = await mainApi.get(`/products?categoryId=${category}`);
           if (res.status === 200) {
             dispatch(updateProducts(res.data));
           }
@@ -56,9 +46,7 @@ function Main() {
   useEffect(() => {
     try {
       async function fetchBasket() {
-        const res = await axios.get(
-          `https://d54757447b9c0307.mokky.dev/basket?userId=${user.id}`
-        );
+        const res = await mainApi.get(`/basket?userId=${user.id}`);
         if (res.status == 200) {
           dispatch(updateBasket(res.data[0]));
         }
@@ -68,6 +56,7 @@ function Main() {
       console.log("Landing Page(Main)", e);
     }
   }, [user]);
+
   return (
     <>
       <main className="container !z-50 px-[10px] md:px-[15px] lg:px-5  py-5 grid gap-5 mx-auto">
