@@ -11,7 +11,6 @@ import { FaInstagram, FaPhone, FaTelegramPlane } from "react-icons/fa";
 //hooks
 import { useSelector } from "react-redux";
 
-//types
 import { RootState } from "../../store/store";
 
 const { Title, Paragraph } = Typography;
@@ -20,9 +19,8 @@ function Footer() {
   const mode = useSelector((state: RootState) => state.main.mode);
   return (
     <footer
-      className={`pt-[24px] sm:pt-[40px] md:pt-[50px] pb-[26px] md:pb-[40px]  ${
-        mode === "light" ? "bg-white" : "bg-[#0C0C0C]"
-      } `}
+      className={`pt-[24px] sm:pt-[40px] md:pt-[50px] pb-[26px] md:pb-[40px]  ${mode === "light" ? "bg-white" : "bg-[#0C0C0C]"
+        } `}
     >
       <div className="container px-[10px] md:px-[15px] lg:px-5  mx-auto ">
         <Row>
