@@ -28,7 +28,7 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
       className=" p-2 md:p-3  cursor-pointer !rounded-2xl mb-2 sm:mb-[9px] md:mb-[10px] lg:mb-[20px]"
     >
       <img
-        className="mb-2 rounded-xl w-full aspect-[2/1.2] position-center border"
+        className="mb-2 rounded-xl bg-transparent w-full aspect-[2/1.2] position-center border"
         src={item.image}
         alt=""
       />
@@ -43,11 +43,10 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
       <Button
         size="large"
         onClick={(e) => handleBasket(e)}
-        className={`w-full !rounded-xl hover:!scale-105 !cursor-pointer ${
-          mode === "light"
+        className={`w-full !rounded-xl hover:!scale-105 !cursor-pointer ${mode === "light"
             ? "bg-thridColor hover:!text-black hover:!bg-gray-200"
             : " bg-mainColor"
-        } `}
+          } `}
       >
         Добавить
       </Button>

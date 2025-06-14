@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const mainApi = axios.create({
-  baseURL: "https://d54757447b9c0307.mokky.dev",
+  baseURL: "https://494e16c79f75151d.mokky.dev",
   timeout: 5000,
   headers: {
     Accept: "application/json",

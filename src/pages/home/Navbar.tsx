@@ -13,7 +13,7 @@ function Navbar() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await mainApi.get("/category");
+        const res = await mainApi.get("/categories");
         if (res.status === 200) {
           dispatch(updateCategories(res.data));
         }
@@ -22,20 +22,19 @@ function Navbar() {
       }
     };
     fetchCategories();
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div className="container flex justify-between h-full gap-3 px-2 py-5 mx-auto overflow-x-auto">
+    <div className="container flex justify-between h-full gap-3 px-2 py-5 mx-auto overflow-x-auto md:px-20">
       {categories.map((item, index) => {
         return (
           <NavLink key={index} to={`category/${item.slug}`}>
             <Button
               shape="round"
-              className={`shadow  ${
-                location.pathname.includes(`category/${item.slug}`)
-                  ? "!bg-mainColor text-white"
-                  : ""
-              }`}
+              className={`shadow !px-6  ${location.pathname.includes(`category/${item.slug}`)
+                ? "!bg-mainColor text-white"
+                : ""
+                }`}
             >
               {item.slug}
             </Button>

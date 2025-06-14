@@ -16,10 +16,9 @@ function Login() {
     password: string;
   }) => {
     console.log("form", values.password, values.phoneNumber);
-
     try {
       const response = await mainApi.post("/auth", {
-        phoneNumber: values.phoneNumber,
+        phone: values.phoneNumber,
         password: values.password,
       });
       console.log(response);
@@ -49,9 +48,8 @@ function Login() {
 
   return (
     <div
-      className={`flex items-center  justify-center h-screen ${
-        mode === "light" ? "bg-thridColor" : "bg-secondColor"
-      }`}
+      className={`flex items-center  justify-center h-screen ${mode === "light" ? "bg-thridColor" : "bg-secondColor"
+        }`}
     >
       <div className="grid grid-cols-1 sm:w-[60%] md:w-auto  md:mx-5 shadow-lg md:grid-cols-2 sm:rounded-3xl overflow-hidden">
         <div

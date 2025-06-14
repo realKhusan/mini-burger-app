@@ -21,7 +21,7 @@ export interface ICategory {
 export interface IUser {
   id: string;
   userName: string;
-  phoneNumber: string;
+  phone: string;
   password: string;
   adress: string;
   location: [number, number];
