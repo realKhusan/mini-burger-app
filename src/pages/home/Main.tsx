@@ -1,16 +1,16 @@
+import mainApi from "@api/Request";
+import Basket from "@components/Basket";
+import Card from "@components/Card";
+import Modal from "@components/Modal";
+import OrderQuantity from "@components/OrderQuantity ";
+import { updateBasket } from "@store/slices/MainReducer";
+import { updateProducts } from "@store/slices/ProductReducer";
+import { RootState } from "@store/store";
 import { Col, Row, Typography, Button, Pagination, Empty } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { useNavigate, useParams } from "react-router-dom";
-import Modal from "../../components/Modal";
 import { IoClose } from "react-icons/io5";
-import OrderQuantity from "../../components/OrderQuantity ";
-import Card from "../../components/Card";
-import { updateProducts } from "../../store/slices/ProductReducer";
-import { updateBasket } from "../../store/slices/MainReducer";
-import Basket from "../../components/Basket";
-import mainApi from "../../api/Request";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 function Main() {

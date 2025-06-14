@@ -58,9 +58,9 @@ function Footer() {
           <Paragraph className="!mb-0">
             © YouMeal, {new Date().getFullYear()}
           </Paragraph>
-          <Paragraph className="!mb-0">
+          <Paragraph className="!mb-0 ">
             build by:
-            <Link to="https://t.me/MoonKnight_009">Husan Mirobidov</Link>
+            <Link className="ms-5" to="https://t.me/MoonKnight_009">Husan Mirobidov</Link>
           </Paragraph>
         </div>
       </div>

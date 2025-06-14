@@ -27,12 +27,13 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
       onClick={onClick}
       className=" p-2 md:p-3  cursor-pointer !rounded-2xl mb-2 sm:mb-[9px] md:mb-[10px] lg:mb-[20px]"
     >
-      <img
-        className="mb-2 rounded-xl bg-transparent w-full aspect-[2/1.2] position-center border"
-        src={item.image}
-        alt=""
-      />
-
+      <div className="overflow-hidden duration-500 rounded-xl ">
+        <img
+          className="mb-2  hover:scale-105 bg-transparent w-full aspect-[2/1.2] position-center  border dark:border-none"
+          src={item.image}
+          alt={item.title}
+        />
+      </div>
       <Title level={3} className="!mb-0">
         {item.price}
       </Title>
@@ -44,8 +45,8 @@ function Card({ item, onClick }: { item: IProduct; onClick: () => void }) {
         size="large"
         onClick={(e) => handleBasket(e)}
         className={`w-full !rounded-xl hover:!scale-105 !cursor-pointer ${mode === "light"
-            ? "bg-thridColor hover:!text-black hover:!bg-gray-200"
-            : " bg-mainColor"
+          ? "bg-thridColor hover:!text-black hover:!bg-gray-200"
+          : " bg-mainColor"
           } `}
       >
         Добавить

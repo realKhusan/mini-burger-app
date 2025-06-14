@@ -13,7 +13,8 @@
       "@api": ["src/api"],
       "@assets": ["src/assets"],
       "@styles": ["src/layout"],
-      "@typess": ["src/types"]
+      "@typess": ["src/types"],
+      "@store": ["src/store"]
     }
   }
 }
