@@ -25,7 +25,6 @@ function Login() {
       if (response.status === 201) {
         const accessToken = response.data.token;
         localStorage.setItem("token", accessToken);
-        console.log("Token:", accessToken);
         navigate("/home");
         message.success("Добро пожаловать! Вы успешно вошли в систему.");
       }

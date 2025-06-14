@@ -12,7 +12,8 @@
       "@components": ["src/components"],
       "@api": ["src/api"],
       "@assets": ["src/assets"],
-      "@styles": ["src/layout"]
+      "@styles": ["src/layout"],
+      "@typess": ["src/types"]
     }
   }
 }

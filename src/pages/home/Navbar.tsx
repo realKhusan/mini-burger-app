@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { useEffect } from "react";
-import { updateCategories } from "../../store/slices/Categories";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "antd";
 import mainApi from "../../api/Request";
+import { RootState } from "@store/store";
+import { updateCategories } from "@store/slices/Categories";
 
 function Navbar() {
   const categories = useSelector((state: RootState) => state.categories.data);

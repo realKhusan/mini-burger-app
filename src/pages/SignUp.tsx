@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 import { Button, Form, Input, Radio, Space, Typography, message } from "antd";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
 import { useForm } from "antd/es/form/Form";
 import { FaLocationDot } from "react-icons/fa6";
-import Modal from "../components/Modal";
+import { RootState } from "@store/store";
+import Modal from "@components/Modal";
 
 function SignUp() {
   const location = useLocation();
@@ -19,6 +19,7 @@ function SignUp() {
   const openModal = params.get("maps") === "true";
   const [form] = useForm();
   const handleSubmit = () => {
+
     if (location.pathname === "/login") {
       navigate("/home");
       message.success("Добро пожаловать! Вы успешно вошли в систему.");
@@ -28,9 +29,8 @@ function SignUp() {
   return (
     <div className={`flex items-center  bgVerse  justify-center h-screen`}>
       <div
-        className={`flex flex-col justify-between shadow-lg h-screen w-[100%] sm:!w-[70%] md:w-[65%] lg:!w-[50%]  rounded-2xl overflow-hidden  px-5 ${
-          mode === "light" ? "bg-white" : "bg-black"
-        }  md:w-full sm:w-full sm:h-auto p-4 py-4 sm:py-7  sm:px-10 md:px-14`}
+        className={`flex flex-col justify-between shadow-lg h-screen w-[100%] sm:!w-[70%] md:w-[65%] lg:!w-[50%]  rounded-2xl overflow-hidden  px-5 ${mode === "light" ? "bg-white" : "bg-black"
+          }  md:w-full sm:w-full sm:h-auto p-4 py-4 sm:py-7  sm:px-10 md:px-14`}
       >
         <div>
           <Typography.Title className=" !text-2xl sm:!text-3xl sm:!bm-0 sm:text-center md:text-left">
